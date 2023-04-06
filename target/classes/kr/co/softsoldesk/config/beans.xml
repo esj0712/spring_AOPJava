@@ -13,20 +13,11 @@
 	   <bean id="xml1" class="kr.co.softsoldesk.beans.TestBean"/>
 	   <bean id="advisor1" class="kr.co.softsoldesk.advisor.AdvisorClass"/>
 	   
-	   <aop:config>
-	   		<aop:aspect ref="advisor1"> <!-- 객체가 하나 생긴것 -->
-	   			<aop:pointcut id="point1" expression="execution(* method1())"/> 
-	   				<aop:before method="beforeMethod" pointcut-ref="point1"/>
-	   				<aop:after method="afterMethod" pointcut-ref="point1"/>
-	   				<!-- <aop:around method="aroundMethod" pointcut-ref="point1"/> -->
-	   				<aop:around method="aroundIntMethod" pointcut-ref="point1"/>
-	   				<aop:after-returning method="afterReturningMethod" pointcut-ref="point1"/>
-	   				<aop:after-throwing method="afterThrowingMethod" pointcut-ref="point1"/>	   				
-	   		</aop:aspect>
-	   </aop:config>		
-
-
+	   <context:component-scan base-package="kr.co.softsoldesk.beans"/>
+	   <context:component-scan base-package="kr.co.softsoldesk.advisor"/>
+	   <!-- AOP Setting -->
+	   <aop:aspectj-autoproxy/>
+	   
 	   
 </beans>
 
-<!-- execution(* method1() : 패키지와 클래스와는 상관없이 method1()이 실행되면-->

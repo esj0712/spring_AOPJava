@@ -1,37 +1,48 @@
 package kr.co.softsoldesk.advisor;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 
+import org.springframework.stereotype.Component;
 
+@Aspect
+@Component
 public class AdvisorClass {
 	
+	@Before("execution(* method1())")
 	public void beforeMethod() {
 		System.out.println("beforeMethod 호출");
 	}
+	
+	
+	@After("execution(* method1())")
 	public void afterMethod() {
 		System.out.println("afterMethod 호출");
 	}
 	
-
-	public int aroundIntMethod(ProceedingJoinPoint pjp) throws Throwable{ 
-		System.out.println("aroundIntMethod 호출1");
+	@Around("execution(* method1())")
+	public Object aroundMethod(ProceedingJoinPoint pjp) throws Throwable{
+		System.out.println("aroundMethod 호출1");
 		
-		// 원래의 메소드를 호출하여 실행시점 명시하기
-		int a1=(Integer)pjp.proceed();
+		Object result=(Object)pjp.proceed();
 		
-		System.out.println("aroundIntMethod 호출2");
+		System.out.println("aroundMethod 호출2");
 		
-		return a1;
+		return result;
 	}
 	
-	// 정상적으로 끝났을때
-	public void afterReturningMethod() {
-		System.out.println("afterReturningMethod 메소드 => 정상종료");
+	@AfterReturning("execution(* method1())")
+	public void afterreturningMethod() {
+		System.out.println("afterreturningMethod 호출");
 	}
-	// 예외 발생할 떄 실행되는 메소드
+	@AfterThrowing("execution(* method1())")
 	public void afterThrowingMethod() {
-		System.out.println("afterThrowingMethod 메소드 => 예외발생");
+		System.out.println("afterThrowingMethod 호출");
 	}
-	
 	
 }
